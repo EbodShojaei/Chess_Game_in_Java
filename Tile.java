@@ -1,49 +1,29 @@
-public abstract class Tile {
+public class Tile {
 	private final int x;
 	private final int y;
+	private Piece piece;
 	
 	public Tile(int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.piece = null;
 	}
 	
-	public abstract boolean hasPiece();
-	
-	public abstract Piece getPiece();
-	
-	// Introduce immutability and type safety
-	public static final class EmptyTile extends Tile {
-		public EmptyTile(int x, int y) {
-			super(x, y);
-		}
-		
-		@Override
-		public boolean hasPiece() {
-			return false;
-		}
-		
-		@Override
-		public Piece getPiece() {
-			return null;
-		}
+	public Tile(int x, int y, Piece piece) {
+		this.x = x;
+		this.y = y;
+		this.piece = piece;
 	}
 	
-	public static final class OccupiedTile extends Tile {
-		private final Piece piece;
-		
-		public OccupiedTile(int x, int y, Piece piece) {
-			super(x, y);
-			this.piece = piece;
-		}
-		
-		@Override
-		public boolean hasPiece() {
-			return true;
-		}
-		
-		@Override
-		public Piece getPiece() {
-			return this.piece;
-		}
+	public boolean hasPiece() {
+		return piece != null;
+	}
+	
+	public Piece getPiece() {
+		return piece;
+	}
+	
+	public void setPiece(Piece piece) {
+		this.piece = piece;
 	}
 }

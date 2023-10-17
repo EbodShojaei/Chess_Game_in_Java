@@ -3,43 +3,28 @@ public abstract class Piece {
 	private Player player;
 	private Tile tile;
 	
-	public Piece(Player player, Tile tile) {
+	public Piece(Name name, Player player, Tile tile) {
 		this.player = player;
+		this.name = name;
 		this.tile = tile;
 	}
 	
-	public Piece(Player player) {
-		this.player = player;
-	}
-	
-	public Piece() {};
-	
-	public abstract boolean checkMove(Board board, Tile current, Tile target);
+	public abstract boolean checkMove(Board board, Tile target);
 	
 	public void move(Board board, Tile target) {
-		if (checkMove(board, this.tile, target)) {
-			this.tile = target; // Board is made of tiles. Each tile knows if occupied or not
+		if (checkMove(board, target)) {
+			target.setPiece(this); // Make target reference piece
+			this.tile.setPiece(null); // Make previous tile empty
+			this.tile = target; // Piece references target 
 		}
-	}
-	
-	public void setName(Name name) {
-		this.name = name;
 	}
 	
 	public Name getName() {
 		return this.name;
 	}
 	
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	
 	public Player getPlayer() {
 		return this.player;
-	}
-	
-	public void setTile(Tile tile) {
-		this.tile = tile;
 	}
 	
 	public Tile getTile() {

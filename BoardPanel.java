@@ -12,7 +12,6 @@ public class BoardPanel extends JPanel implements Observer {
 		this.game = game;
 		this.board = game.getBoard();
 		this.controller = controller;
-		game.addObserver(this);
 		init();
 	}
 	
@@ -38,10 +37,7 @@ public class BoardPanel extends JPanel implements Observer {
 		}
 	}
 	
-	@Override
 	public void onUpdate() {
-		// Update board UI
-		revalidate();
 		repaint();
 	}
 }

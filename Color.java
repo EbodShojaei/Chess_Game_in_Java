@@ -1,3 +1,4 @@
-public interface Color {
-	String getName();
+public enum Color {
+	WHITE,
+	BLACK;
 }

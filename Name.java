@@ -1,3 +1,8 @@
-public interface Name {
-	String getName();
+public enum Name {
+	K,
+	Q,
+	R,
+	B,
+	X,
+	P;
 }

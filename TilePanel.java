@@ -22,4 +22,24 @@ public class TilePanel extends JPanel {
 		
 		setOpaque(true);
 	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Board board = controller.getGame().getBoard();
+		Tile tile = board.getTile(x, y);
+		
+		if (tile.hasPiece()) {
+			Piece piece = tile.getPiece();
+			String pieceName = piece.getName().name();
+			
+			if (piece.getPlayer().getColor() == Color.BLACK) {
+				g.setColor(java.awt.Color.BLUE);
+			} else {
+				g.setColor(java.awt.Color.RED);
+			}
+			
+			g.drawString(pieceName, getWidth()/2, getHeight()/2);
+		}
+	}
 }
