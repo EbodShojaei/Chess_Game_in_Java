@@ -1,34 +1,20 @@
 public abstract class Piece {
 	private Name name;
-	private Player player;
-	private Tile tile;
+	private Color color;
 	
-	public Piece(Name name, Player player, Tile tile) {
-		this.player = player;
+	public Piece(Name name, Color color) {
 		this.name = name;
-		this.tile = tile;
+		this.color = color;
 	}
 	
-	public abstract boolean checkMove(Board board, Tile target);
-	
-	public void move(Board board, Tile target) {
-		if (checkMove(board, target)) {
-			target.setPiece(this); // Make target reference piece
-			this.tile.setPiece(null); // Make previous tile empty
-			this.tile = target; // Piece references target 
-		}
-	}
+	public abstract boolean checkMove(Position pos);
 	
 	public Name getName() {
 		return this.name;
 	}
 	
-	public Player getPlayer() {
-		return this.player;
-	}
-	
-	public Tile getTile() {
-		return this.tile;
+	public Color getColor() {
+		return this.color;
 	}
 }
 	

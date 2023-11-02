@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class BoardPanel extends JPanel implements Observer {
+public class BoardPanel extends JPanel {
 	private final Game game;
 	private final Board board;
 	private final Controller controller;
@@ -24,20 +24,9 @@ public class BoardPanel extends JPanel implements Observer {
 		for (int row = 0; row < rows; row++) {
 			for (int col = 0; col < cols; col++) {
 				TilePanel tilePanel = new TilePanel(row, col, controller);
-				tilePanel.setPreferredSize(new Dimension(60,  60));
-				
-				if ((row + col) % 2 == 0) {
-					tilePanel.setBackground(java.awt.Color.WHITE);
-				} else {
-					tilePanel.setBackground(java.awt.Color.BLACK);
-				}
-				
+				tilePanel.setPreferredSize(new Dimension(60, 60));
 				add(tilePanel);
 			}
 		}
-	}
-	
-	public void onUpdate() {
-		repaint();
 	}
 }

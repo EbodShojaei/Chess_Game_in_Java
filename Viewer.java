@@ -20,7 +20,6 @@ public class Viewer extends JFrame {
 		
 		// Create the BoardPanel and add to frame
 		BoardPanel boardPanel = new BoardPanel(game, controller);
-		game.addObserver(boardPanel);
 		add(boardPanel, BorderLayout.CENTER);
 		
 		// Full-screen frame
@@ -28,12 +27,7 @@ public class Viewer extends JFrame {
 		setResizable(true);
 		
 		// Set up other UI
-		
 		pack();
 		setVisible(true);
-	}
-	
-	public void updateBoard() {
-		this.repaint();
 	}
 }
