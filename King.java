@@ -1,14 +1,14 @@
 import java.awt.Color;
 
-/** Represents a Pawn for chess. */
-public class Pawn extends Piece {
+/** Represents a King for chess. */
+public class King extends Piece {
 	/** 
-	 * Initializes a Pawn.
+	 * Initializes a King.
 	 *
 	 * @param color is a chess piece color.
 	 */
-	public Pawn(Color color) {
-		super(Name.P, color);
+	public King(Color color) {
+		super(Name.K, color);
 	}
 	
 	/** Checks if the piece can move to the position. 

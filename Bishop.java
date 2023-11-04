@@ -1,13 +1,13 @@
 import java.awt.Color;
 
-/** Represents a Pawn for chess. */
-public class Pawn extends Piece {
+/** Represents a Bishop for chess. */
+public class Bishop extends Piece {
 	/** 
-	 * Initializes a Pawn.
+	 * Initializes a Bishop.
 	 *
 	 * @param color is a chess piece color.
 	 */
-	public Pawn(Color color) {
+	public Bishop(Color color) {
 		super(Name.P, color);
 	}
 	

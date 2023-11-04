@@ -1,8 +1,9 @@
+/** Enum represents set of chess pieces. */
 public enum Name {
-	K,
-	Q,
-	R,
-	B,
-	X,
-	P;
+	K, // King
+	Q, // Queen
+	R, // Rook
+	B, // Bishop
+	X, // Knight
+	P; // Pawn
 }

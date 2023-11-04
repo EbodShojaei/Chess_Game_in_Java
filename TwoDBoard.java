@@ -12,7 +12,7 @@ public class TwoDBoard implements Board {
 	private final int height = 8;
 	
 	/**
-	 * Constructor.
+	 * Initializes a classic 8 x 8 chess board. 
 	 */
 	public TwoDBoard() {
 		// Standard 8 x 8 chess board
@@ -44,7 +44,7 @@ public class TwoDBoard implements Board {
 	}
 	
 	/**
-	 * Gets board level.
+	 * Gets board level (z-axis).
 	 */
 	@Override
 	public int getLevel() {
@@ -104,15 +104,18 @@ public class TwoDBoard implements Board {
 			// Move to new tile. Clear previous tile.
 			pieces[start.getX()][start.getY()] = null;
 			pieces[end.getX()][end.getY()] = piece;
+			System.out.printf("Piece (%s) moved to [%d, %d].\n", piece.getName().name(), end.getX(), end.getY());
+			
 			return true;
 		} catch (Exception e) {
 			System.out.printf("%s\n", e.getMessage()); // Throws to controller
 			return false;
-		} finally {
-			System.out.printf("Piece (%s) moved to [%d, %d].\n", piece.getName().name(), end.getX(), end.getY());
 		}
 	}
 
+	/**
+	 * Sets up the pieces on the board.
+	 */
 	@Override
 	public void setup() {		
 		// Add pawns
@@ -122,37 +125,29 @@ public class TwoDBoard implements Board {
 		}
 		
 		// Add rooks
-		// tiles[0][0] = new Tile(0, 0, new Rook(black));
-		// tiles[0][7] = new Tile(0, 7, new Rook(black));
-		// tiles[7][0] = new Tile(7, 0, new Rook(white));
-		// tiles[7][7] = new Tile(7, 7, new Rook(white));
+		pieces[0][0] = new Rook(Color.BLACK);
+		pieces[0][7] = new Rook(Color.BLACK);
+		pieces[7][0] = new Rook(Color.WHITE);
+		pieces[7][7] = new Rook(Color.WHITE);
 		
 		// Add knights
-		// tiles[0][1] = new Tile(0, 1, new Knight(black));
-		// tiles[0][6] = new Tile(0, 6, new Knight(black));
-		// tiles[7][1] = new Tile(7, 1, new Knight(white));
-		// tiles[7][6] = new Tile(7, 6, new Knight(white));
+		pieces[0][1] = new Knight(Color.BLACK);
+		pieces[0][6] = new Knight(Color.BLACK);
+		pieces[7][1] = new Knight(Color.WHITE);
+		pieces[7][6] = new Knight(Color.WHITE);
 		
 		// Add bishops
-		// tiles[0][2] = new Tile(0, 2, new Bishop(black));
-		// tiles[0][5] = new Tile(0, 5, new Bishop(black));
-		// tiles[7][2] = new Tile(7, 2, new Bishop(white));
-		// tiles[7][5] = new Tile(7, 5, new Bishop(white));
+		pieces[0][2] = new Bishop(Color.BLACK);
+		pieces[0][5] = new Bishop(Color.BLACK);
+		pieces[7][2] = new Bishop(Color.WHITE);
+		pieces[7][5] = new Bishop(Color.WHITE);
 		
 		// Add Queen
-		// tiles[0][3] = new Tile(0, 3, new Queen(black));
-		// tiles[7][3] = new Tile(7, 3, new Queen(white));
+		pieces[0][3] = new Queen(Color.BLACK);
+		pieces[7][3] = new Queen(Color.WHITE);
 		
 		// Add King
-		// tiles[0][4] = new Tile(0, 4, new King(black));
-		// tiles[7][4] = new Tile(7, 4, new King(white));
-		
-		// Empty remaining tiles
-		// for (int col = 0; col < width; col++) {
-			// tiles[2][col] = new Tile(2, col);
-			// tiles[3][col] = new Tile(3, col);
-			// tiles[4][col] = new Tile(4, col);
-			// tiles[5][col] = new Tile(5, col);
-		// }
+		pieces[0][4] = new King(Color.BLACK);
+		pieces[7][4] = new King(Color.WHITE);
 	}
 }
