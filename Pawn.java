@@ -1,4 +1,5 @@
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 /** Represents a Pawn for chess. */
 public class Pawn extends Piece {
@@ -18,5 +19,14 @@ public class Pawn extends Piece {
 	 */
 	public boolean checkMove(Position position) {
 		return true;
+	}
+	
+	/** Gets the piece icon. 
+	 * 
+	 * @return ImageIcon is a chess piece icon.
+	 */
+	public ImageIcon getIcon() {
+		String fileName = this.getColor().equals(Color.WHITE) ? "pw" : "pb";
+		return new ImageIcon(getClass().getResource("/resources/images/" + fileName + ".png"));
 	}
 }

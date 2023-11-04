@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
@@ -104,8 +106,13 @@ public class BoardPanel extends JPanel implements Observer {
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					if (board.hasPiece(position)) System.out.println("Piece selected.");
-					else System.out.println("Tile selected.");
+					if (board.hasPiece(position)) {
+						System.out.println("Piece selected.");
+						// setBackground(Color.YELLOW);
+					}
+					else {
+						System.out.println("Tile selected.");
+					}
 		
 					controller.selectTile(position); // Update the controller
 				}
@@ -130,10 +137,23 @@ public class BoardPanel extends JPanel implements Observer {
 			} 
 			
 			if (piece != null) {
-				label.setText(piece.getName().name()); // Update label of occupied tile
-				label.setForeground((piece.getColor() == Color.BLACK) ? Color.BLUE : Color.RED); // Update font color
+				// If image does not load, fall back to alt-text.
+				try {
+					ImageIcon icon = piece.getIcon();
+					Image original = icon.getImage();
+					Image scaled = original.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+					label.setIcon(new ImageIcon(scaled));
+				} catch (Exception e) {
+					label.setText(piece.getName().name()); // Update label of occupied tile
+					label.setForeground((piece.getColor() == Color.BLACK) ? Color.BLUE : Color.RED); // Update font color
+				}
 			} else {
-				label.setText(""); // Unoccupied tile
+				// If image does not load, fall back to alt-text.
+				try {
+					label.setIcon(null);
+				} catch (Exception e) {
+					label.setText(""); // Unoccupied tile
+				}
 			}
 			
 			this.revalidate();

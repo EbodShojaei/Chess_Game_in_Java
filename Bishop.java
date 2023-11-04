@@ -1,4 +1,5 @@
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 /** Represents a Bishop for chess. */
 public class Bishop extends Piece {
@@ -8,7 +9,7 @@ public class Bishop extends Piece {
 	 * @param color is a chess piece color.
 	 */
 	public Bishop(Color color) {
-		super(Name.P, color);
+		super(Name.B, color);
 	}
 	
 	/** Checks if the piece can move to the position. 
@@ -18,5 +19,14 @@ public class Bishop extends Piece {
 	 */
 	public boolean checkMove(Position position) {
 		return true;
+	}
+	
+	/** Gets the piece icon. 
+	 * 
+	 * @return ImageIcon is a chess piece icon.
+	 */
+	public ImageIcon getIcon() {
+		String fileName = this.getColor().equals(Color.WHITE) ? "bw" : "bb";
+		return new ImageIcon(getClass().getResource("/resources/images/" + fileName + ".png"));
 	}
 }

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 /** Represents a Knight for chess. */
 public class Knight extends Piece {
@@ -18,5 +19,14 @@ public class Knight extends Piece {
 	 */
 	public boolean checkMove(Position position) {
 		return true;
+	}
+	
+	/** Gets the piece icon. 
+	 * 
+	 * @return ImageIcon is a chess piece icon.
+	 */
+	public ImageIcon getIcon() {
+		String fileName = this.getColor().equals(Color.WHITE) ? "nw" : "nb";
+		return new ImageIcon(getClass().getResource("/resources/images/" + fileName + ".png"));
 	}
 }

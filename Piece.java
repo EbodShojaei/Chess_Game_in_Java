@@ -1,4 +1,5 @@
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 /** Represents a chess piece. */
 public abstract class Piece {
@@ -12,19 +13,13 @@ public abstract class Piece {
 	 * Initializes a chess piece.
 	 *
 	 * @param name is a chess piece name
-	 * @param color is a chess piece color.
+	 * @param color is a chess piece color
+	 * @param icon is a chess piece icon
 	 */
 	public Piece(Name name, Color color) {
 		this.name = name;
 		this.color = color;
 	}
-
-	/** Checks if the piece can move to the position. 
-	 * 
-	 * @param position is a tile coordinate.
-	 * @return true if valid move, else false.
-	 */
-	public abstract boolean checkMove(Position pos);
 	
 	/** 
 	 * Gets the piece name. 
@@ -43,5 +38,19 @@ public abstract class Piece {
 	public Color getColor() {
 		return this.color;
 	}
+	
+	/** 
+	 * Gets the piece icon. 
+	 *
+	 * @return icon of piece
+	 */
+	abstract ImageIcon getIcon();
+	
+	/** Checks if the piece can move to the position. 
+	 * 
+	 * @param position is a tile coordinate.
+	 * @return true if valid move, else false.
+	 */
+	public abstract boolean checkMove(Position pos);
 }
 	
