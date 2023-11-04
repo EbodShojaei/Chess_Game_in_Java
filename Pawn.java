@@ -1,9 +1,11 @@
+import java.awt.Color;
+
 public class Pawn extends Piece {
-	public Pawn(Player player, Tile tile) {
-		super(Name.P, player, tile);
+	public Pawn(Color color) {
+		super(Name.P, color);
 	}
 	
-	public boolean checkMove(Board board, Tile target) {
+	public boolean checkMove(Position position) {
 		return true;
 	}
 }

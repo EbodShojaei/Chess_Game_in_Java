@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public abstract class Piece {
 	private Name name;
 	private Color color;

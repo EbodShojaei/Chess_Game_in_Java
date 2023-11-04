@@ -1,8 +1,13 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.awt.Color;
+
 /**
  * Subclass represents a classic 8 x 8 chess board.
  */
 public class TwoDBoard implements Board {
-	private final Piece[][] board;
+	private final List<Position> board;
+	private final Piece[][] pieces;
 	private final int width = 8;
 	private final int height = 8;
 	
@@ -10,7 +15,16 @@ public class TwoDBoard implements Board {
 	 * Constructor.
 	 */
 	public TwoDBoard() {
-		board = new Piece[height][width]; // Standard 8 x 8 chess board
+		// Standard 8 x 8 chess board
+		pieces = new Piece[height][width];
+		board = new ArrayList<Position>(height * width);
+		
+		// Set up board layout
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+				board.add(new Position(row, col));
+			}
+		}
 	}
 	
 	/**
@@ -36,14 +50,21 @@ public class TwoDBoard implements Board {
 	public int getLevel() {
 		return 0;
 	} 
-
+	
 	/**
-	 * Checks for a piece.
+	 * Gets board size.
 	 */
 	@Override
-	public boolean hasPiece(Position pos) {
-		if (board[pos.getX()][pos.getY()] != null) return true;
-		return false;
+	public int getSize() {
+		return width * height;
+	}
+	
+	/**
+	 * Gets tile position.
+	 */
+	@Override
+	public Position getTile(int index) {
+		return board.get(index);
 	}
 	
 	/**
@@ -51,32 +72,54 @@ public class TwoDBoard implements Board {
 	 */
 	@Override
 	public Piece getPiece(Position pos) {
-		if (this.hasPiece(pos)) return board[pos.getX()][pos.getY()];
+		if (this.hasPiece(pos)) return pieces[pos.getX()][pos.getY()];
 		return null;
+	}
+	
+	/**
+	 * Checks for a piece.
+	 */
+	@Override
+	public boolean hasPiece(Position pos) {
+		if (pieces[pos.getX()][pos.getY()] != null) return true;
+		return false;
 	}
 	
 	/**
 	 * Moves a piece.
 	 */
 	@Override
-	public void movePiece(Position start, Position end) {
-		// Check for a piece and if the move is valid. 
+	public boolean movePiece(Position start, Position end) {
+		// Check for a piece and if the move is valid.
 		Piece piece = this.getPiece(start);
-		if (piece == null) return;
-		if (!piece.checkMove(end)) return;
-		if (piece.getColor() == this.getPiece(end).getColor()) return;
-		
-		// Move to new tile. Clear previous tile.
-		board[start.getX()][start.getY()] = null;
-		board[end.getX()][end.getY()] = piece;
+		try {
+			if (piece == null) throw new Exception("Error: No piece to move.");
+			if (!piece.checkMove(end)) throw new Exception("Error: Invalid move.");
+			
+			// Player cannot attack their own pieces.
+			if (this.hasPiece(end))
+				if (piece.getColor().equals(this.getPiece(end).getColor())) 
+					throw new Exception("Error: Cannot capture own piece.");
+			
+			// Move to new tile. Clear previous tile.
+			pieces[start.getX()][start.getY()] = null;
+			pieces[end.getX()][end.getY()] = piece;
+			return true;
+		} catch (Exception e) {
+			System.out.printf("%s\n", e.getMessage()); // Throws to controller
+			return false;
+		} finally {
+			System.out.printf("Piece (%s) moved to [%d, %d].\n", piece.getName().name(), end.getX(), end.getY());
+		}
 	}
 
-	public void setup(Player white, Player black) {
+	@Override
+	public void setup() {		
 		// Add pawns
-		// for (int col = 0; col < width; col++) {
-			// tiles[1][col] = new Tile(1, col, new Pawn(black, tiles[1][col]));
-			// tiles[6][col] = new Tile(1, col, new Pawn(white, tiles[6][col]));
-		// }
+		for (int col = 0; col < width; col++) {
+			pieces[1][col] = new Pawn(Color.BLACK);
+			pieces[6][col] = new Pawn(Color.WHITE);
+		}
 		
 		// Add rooks
 		// tiles[0][0] = new Tile(0, 0, new Rook(black));

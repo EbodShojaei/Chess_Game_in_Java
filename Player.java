@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class Player {
 	private final Color color;
 	

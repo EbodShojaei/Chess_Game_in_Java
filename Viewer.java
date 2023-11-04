@@ -1,14 +1,13 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.JFrame;
 
 public class Viewer extends JFrame {
 	private final Game game;
-	private final Board board;
 	private final Controller controller;
 	
 	public Viewer(Game game, Controller controller) {
 		this.game = game;
-		this.board = game.getBoard();
 		this.controller = controller;
 		display();
 	}
@@ -19,7 +18,8 @@ public class Viewer extends JFrame {
 		setLayout(new BorderLayout());
 		
 		// Create the BoardPanel and add to frame
-		BoardPanel boardPanel = new BoardPanel(game, controller);
+		BoardPanel boardPanel = new BoardPanel(game.getBoard(), controller);
+		boardPanel.init();
 		add(boardPanel, BorderLayout.CENTER);
 		
 		// Full-screen frame
@@ -29,5 +29,8 @@ public class Viewer extends JFrame {
 		// Set up other UI
 		pack();
 		setVisible(true);
+		
+		// Add an observer for the board
+		game.addObserver(boardPanel);
 	}
 }
