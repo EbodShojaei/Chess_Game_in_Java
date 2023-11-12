@@ -18,50 +18,29 @@ public class Pawn extends Piece {
 	 * @param position is a tile coordinate.
 	 * @return true if valid move, else false.
 	 */
+	@Override
 	public boolean checkMove(Position start, Position end) {		
-		int row = end.getX() - start.getX();
-		int col = end.getY() - start.getY();
-
-		// If first move, then we can move 1 or 2
-		// If not first move, only move 1
-
-		// if (col != 0) return false;
-
-		// if (super.getColor() == Color.WHITE) {
-			// switch (firstMove) {
-				// case true:
-					// if (row == -2 || row == -1) return true;
-					// else return false
-					// break;
-				// case false:
-					// if (row == -1) return true;
-					// else return false;
-					// break
-			// }
-		// } else if (super.getColor() == Color.BLACK) {
-			// switch (firstMove) {
-				// case true:
-					// if (row == 2 || row == 1) return true;
-					// else return false
-					// break;
-				// case false:
-					// if (row == 1) return true;
-					// else return false;
-					// break
-			// }
-		// }
-		// return false;
-		if (col != 0) return false;
+		int rowDiff = end.getX() - start.getX();
+		int colDiff = end.getY() - start.getY();
 		
-		// Calculate row movement based on color and if first move
-		int expected = (super.getColor() == Color.WHITE) ? (firstMove ? -2 : -1) : (firstMove ? 2 : 1);
+		// Determine direction of movement
+		int direction = super.getColor() == Color.WHITE ? -1 : 1;
 		
-		// Check if move matches expected row for first move or normal move
-		boolean isValid = firstMove ? Math.abs(row) <= Math.abs(expected) : row == expected;
+		// Check for normal forward movement
+		if (colDiff == 0) {
+			if (firstMove && rowDiff == 2 * direction) { // Two tiles first move
+				firstMove = false; // First move false;
+				return true;
+			} else if (rowDiff == direction) { // One tile forward
+				if (firstMove) firstMove = false;
+				return true;
+			}
+		}
 		
-		// Set first move to false on valid move
-		if (isValid && firstMove) firstMove = false;
-		return isValid;
+		// Check for diagonal capture
+		// if (Math.abs(colDiff) == 1 && rowDiff == direction) return true;
+		
+		return false; // None of the above. Invalid move
 	}
 
 	

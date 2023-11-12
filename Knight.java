@@ -17,14 +17,20 @@ public class Knight extends Piece {
 	 * @param position is a tile coordinate.
 	 * @return true if valid move, else false.
 	 */
+	@Override
 	public boolean checkMove(Position start, Position end) {
-		return true;
+		int rowDiff = Math.abs(end.getX() - start.getX());
+		int colDiff = Math.abs(end.getY() - start.getY());
+		
+		// Check for L-shaped move
+		return (rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2);
 	}
 	
 	/** Gets the piece icon. 
 	 * 
 	 * @return ImageIcon is a chess piece icon.
 	 */
+	@Override
 	public ImageIcon getIcon() {
 		String fileName = this.getColor().equals(Color.WHITE) ? "nw" : "nb";
 		return new ImageIcon(getClass().getResource("/resources/images/" + fileName + ".png"));

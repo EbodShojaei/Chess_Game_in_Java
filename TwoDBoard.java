@@ -86,6 +86,23 @@ public class TwoDBoard implements Board {
 	}
 	
 	/**
+	 * Checks if path is empty.
+	 */
+	public boolean checkPath(Position start, Position end) {
+		int dx = Integer.signum(end.getX() - start.getX());
+		int dy = Integer.signum(end.getY() - start.getY());
+		int x = start.getX() + dx;
+		int y = start.getY() + dy;
+		
+		while (x != end.getX() || y != end.getY()) {
+			if (this.hasPiece(new Position(x, y))) return false;
+				x += dx;
+				y += dy;
+		}
+		return true;
+	}
+	
+	/**
 	 * Moves a piece.
 	 */
 	@Override
@@ -94,7 +111,9 @@ public class TwoDBoard implements Board {
 		Piece piece = this.getPiece(start);
 		try {
 			if (piece == null) throw new Exception("Error: No piece to move.");
-			if (!piece.checkMove(start, end)) throw new Exception("Error: Invalid move.");
+			if (!piece.checkMove(start, end)) throw new Exception("Error: Invalid move."); // Piece checking
+			if (!(piece instanceof Knight) && !checkPath(start, end)) throw new Exception("Error: Path is not clear."); // Path checking
+			if (this.hasPiece(end)) throw new Exception("Error: Cannot capture piece."); // TEMP: IF ANOTHER PIECE AT TARGET THEN DO NOT MOVE THE PIECE
 			
 			// Player cannot attack their own pieces.
 			if (this.hasPiece(end))
