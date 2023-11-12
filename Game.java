@@ -53,8 +53,10 @@ public class Game extends Observable {
 	 */
 	public void makeMove(Position start, Position end) {
 		// Check player moving own piece
-		if (board.movePiece(start, end)) switchTurn(); // Switch turns
-		this.pingObservers(); // Notify viewer
+		if (board.movePiece(start, end)) {
+			switchTurn(); // Switch turns
+			this.pingObservers(); // Notify viewer
+		}
 		System.out.printf("Current turn: %s\n", (turn == player1) ? "WHITE" : "BLACK");
 	}
 }

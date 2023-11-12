@@ -17,7 +17,7 @@ public class Queen extends Piece {
 	 * @param position is a tile coordinate.
 	 * @return true if valid move, else false.
 	 */
-	public boolean checkMove(Position position) {
+	public boolean checkMove(Position start, Position end) {
 		return true;
 	}
 	

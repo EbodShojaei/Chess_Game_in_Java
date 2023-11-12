@@ -51,6 +51,6 @@ public abstract class Piece {
 	 * @param position is a tile coordinate.
 	 * @return true if valid move, else false.
 	 */
-	public abstract boolean checkMove(Position pos);
+	public abstract boolean checkMove(Position start, Position end);
 }
 	

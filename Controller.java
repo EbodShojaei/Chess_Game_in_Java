@@ -28,7 +28,13 @@ public class Controller {
 		if (selectedTile != null) {
 			// If tile already selected, handle movement.
 			Player currentPlayer = game.getTurn();
+			
+			// Get the selected piece before moving it
+			Piece current = game.getBoard().getPiece(selectedTile);
 			game.makeMove(selectedTile, position);
+			
+			// If the move was not successful, reset the selected tile.
+			if (current != game.getBoard().getPiece(position)) selectedTile = null;
 			if (!game.getTurn().equals(currentPlayer)) selectedTile = null;
 		} else {
 			// Check if tile has piece that belongs to player.

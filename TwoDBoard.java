@@ -94,7 +94,7 @@ public class TwoDBoard implements Board {
 		Piece piece = this.getPiece(start);
 		try {
 			if (piece == null) throw new Exception("Error: No piece to move.");
-			if (!piece.checkMove(end)) throw new Exception("Error: Invalid move.");
+			if (!piece.checkMove(start, end)) throw new Exception("Error: Invalid move.");
 			
 			// Player cannot attack their own pieces.
 			if (this.hasPiece(end))
