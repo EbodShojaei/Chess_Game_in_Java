@@ -33,7 +33,7 @@ public class Viewer extends JFrame {
 		setLayout(new BorderLayout());
 		
 		// Create the BoardPanel and add to frame
-		MultiBoardPanel boardPanel = new MultiBoardPanel(game.getBoard(), controller, 3);
+		MultiBoardPanel boardPanel = new MultiBoardPanel(game.getBoard(), controller, 2);
 		//boardPanel.init();
 		add(boardPanel, BorderLayout.CENTER);
 		

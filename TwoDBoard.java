@@ -42,7 +42,7 @@ public class TwoDBoard implements Board {
 		// Set up board layout
 		for (int row = 0; row < height; row++) {
 			for (int col = 0; col < width; col++) {
-				for (int lvl = 0; lvl < level; lvl++) {
+				for (int lvl = 0; lvl < this.level; lvl++) {
 					board.add(new Position(row, col, lvl));
 				}
 			}
@@ -118,12 +118,15 @@ public class TwoDBoard implements Board {
 		int x = start.getX() + dx;
 		int y = start.getY() + dy;
 		int z = start.getZ() + dz; // This method finally came in handy.
-		
-		while (x != end.getX() || y != end.getY() || z != end.getZ()) {
-			if (this.hasPiece(new Position(x, y, z))) return false;
-				x += dx;
-				y += dy;
-				z += dz; // Yup. Level up (Default 0).
+		System.out.println("end: " + end.getZ());
+		System.out.println("start " + start.getZ());
+		System.out.println("dz " + dz);
+		while (x != end.getX() || y != end.getY() || z != end.getZ()) { 
+			if (this.hasPiece(new Position(x, y, z))) return false;		
+			x += dx;
+			y += dy;
+			if (z < end.getZ()) z += dz; // Yup. Level up (Default 0).
+			System.out.println(z);
 		}
 		return true;
 	}
@@ -159,6 +162,7 @@ public class TwoDBoard implements Board {
 			
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.printf("%s\n", e.getMessage()); // Throws to controller
 			return false;
 		}
