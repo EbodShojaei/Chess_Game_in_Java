@@ -6,7 +6,7 @@ import java.awt.Color;
  */
 public class Game extends Observable {
 	/** Represents the chess board. */
-	private final Board board = new TwoDBoard(3);
+	private final Board board;
 	
 	/** Represents a player. */
 	private final Player player1 = new Player(Color.WHITE);
@@ -19,6 +19,13 @@ public class Game extends Observable {
 	
 	/** Initializes the game. */
 	public Game() {
+		board = new TwoDBoard();
+		board.setup();
+	}
+	
+	/** Overridden constructor initializes the game. */
+	public Game(int numberOfBoards) {
+		board = new TwoDBoard(numberOfBoards);
 		board.setup();
 	}
 	

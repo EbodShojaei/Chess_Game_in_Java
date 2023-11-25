@@ -118,15 +118,11 @@ public class TwoDBoard implements Board {
 		int x = start.getX() + dx;
 		int y = start.getY() + dy;
 		int z = start.getZ() + dz; // This method finally came in handy.
-		System.out.println("end: " + end.getZ());
-		System.out.println("start " + start.getZ());
-		System.out.println("dz " + dz);
 		while (x != end.getX() || y != end.getY() || z != end.getZ()) { 
-			if (this.hasPiece(new Position(x, y, z))) return false;		
-			x += dx;
-			y += dy;
-			if (z < end.getZ()) z += dz; // Yup. Level up (Default 0).
-			System.out.println(z);
+			if (this.hasPiece(new Position(x, y, z))) return false;
+			if (x != end.getX()) x += dx;
+			if (y != end.getY()) y += dy;
+			if (z != end.getZ()) z += dz; // Yup. Level up (Default 0).
 		}
 		return true;
 	}
@@ -143,9 +139,10 @@ public class TwoDBoard implements Board {
 			if (!piece.checkMove(start, end)) throw new Exception("Error: Invalid move."); // Piece checking
 			if (!(piece instanceof Knight) && !checkPath(start, end)) throw new Exception("Error: Path is not clear."); // Path checking
 			if (this.hasPiece(end)) throw new Exception("Error: Cannot capture piece."); // TEMP: IF ANOTHER PIECE AT TARGET THEN DO NOT MOVE THE PIECE
-			
-			// Player cannot attack their own pieces.
-			if (this.hasPiece(end))
+			if ((start.getX() == end.getX()) &&
+				(start.getY() == end.getY()) &&
+				(start.getZ() != end.getZ())) throw new Exception("Error: Cannot step up same position."); // Cannot step up to same position
+			if (this.hasPiece(end)) // Player cannot attack their own pieces.
 				if (piece.getColor().equals(this.getPiece(end).getColor())) 
 					throw new Exception("Error: Cannot capture own piece.");
 			
@@ -162,7 +159,7 @@ public class TwoDBoard implements Board {
 			
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			System.out.printf("%s\n", e.getMessage()); // Throws to controller
 			return false;
 		}
