@@ -8,6 +8,9 @@ public class Main {
 			} catch (NumberFormatException e) {
 				System.out.println("Error: Invalid number entered.");
 			}
+		} else if (args.length != 0) {
+			System.out.println("Error: Usage <numberOfBoards>");
+			System.exit(1);
 		}
 		// Initialize the Model View Controller
 		Game game = new Game(numberOfBoards); // Default is single board. Else specify number boards.
