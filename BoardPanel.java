@@ -21,6 +21,9 @@ public class BoardPanel extends JPanel implements Observer {
 	/** Represents event handler. */
 	private final Controller controller;
 	
+	/** Represents board index. */
+	private final int index;
+	
 	/** 
 	 * Initializes a Swing displayer for a chess board.
 	 *
@@ -30,6 +33,19 @@ public class BoardPanel extends JPanel implements Observer {
 	public BoardPanel(Board board, Controller controller) {
 		this.board = board;
 		this.controller = controller;
+		this.index = 0; // First board is index 0
+	}
+	
+	/** 
+	 * Initializes a Swing displayer for a chess board.
+	 *
+	 * @param board is a chess board.
+	 * @param controller is a handler for click events.
+	 */
+	public BoardPanel(Board board, Controller controller, int index) {
+		this.board = board;
+		this.controller = controller;
+		this.index = index;
 	}
 	
 	/**
@@ -52,6 +68,8 @@ public class BoardPanel extends JPanel implements Observer {
 		// Repaint the board
 		for (int tile = 0; tile < board.getSize(); tile++) {
 			Position position = board.getTile(tile);
+			if (position.getZ() != index) continue; // Essential for proper display. Try unchecking it.
+			
 			TilePanel tilePanel = new TilePanel(position, controller);
 			
 			Piece piece = board.getPiece(position); // Check for piece at tile

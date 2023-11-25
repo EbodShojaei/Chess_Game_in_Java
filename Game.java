@@ -6,7 +6,7 @@ import java.awt.Color;
  */
 public class Game extends Observable {
 	/** Represents the chess board. */
-	private final Board board = new TwoDBoard();
+	private final Board board = new TwoDBoard(3);
 	
 	/** Represents a player. */
 	private final Player player1 = new Player(Color.WHITE);

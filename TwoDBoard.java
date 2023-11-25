@@ -7,7 +7,7 @@ import java.awt.Color;
  */
 public class TwoDBoard implements Board {
 	private final List<Position> board;
-	private final Piece[][][] pieces;
+	private final Piece[][][] pieces; // Why hello there. New dimensions
 	private final int width = 8;
 	private final int height = 8;
 	private final int level;
@@ -70,7 +70,7 @@ public class TwoDBoard implements Board {
 	 */
 	@Override
 	public int getLevel() {
-		return 0;
+		return level;
 	} 
 	
 	/**
@@ -78,7 +78,7 @@ public class TwoDBoard implements Board {
 	 */
 	@Override
 	public int getSize() {
-		return (level > 1) ? width * height * level : width * height;
+		return width * height * level; // Asking if third-dimensional
 	}
 	
 	/**
@@ -94,7 +94,7 @@ public class TwoDBoard implements Board {
 	 */
 	@Override
 	public Piece getPiece(Position pos) {
-		if (this.hasPiece(pos)) return pieces[pos.getX()][pos.getY()][pos.getZ()];
+		if (this.hasPiece(pos)) return pieces[pos.getX()][pos.getY()][pos.getZ()]; // Default Z was always 0. Just being explicit now that it's variable
 		return null;
 	}
 	
@@ -114,16 +114,16 @@ public class TwoDBoard implements Board {
 	public boolean checkPath(Position start, Position end) {
 		int dx = Integer.signum(end.getX() - start.getX());
 		int dy = Integer.signum(end.getY() - start.getY());
-		int dz = Integer.signum(end.getZ() - start.getZ());
+		int dz = Integer.signum(end.getZ() - start.getZ()); // Default was always 0. Just being explicit with Z now that it's variable
 		int x = start.getX() + dx;
 		int y = start.getY() + dy;
-		int z = start.getZ() + dz;
+		int z = start.getZ() + dz; // This method finally came in handy.
 		
 		while (x != end.getX() || y != end.getY() || z != end.getZ()) {
 			if (this.hasPiece(new Position(x, y, z))) return false;
 				x += dx;
 				y += dy;
-				z += dz;
+				z += dz; // Yup. Level up (Default 0).
 		}
 		return true;
 	}
@@ -149,7 +149,7 @@ public class TwoDBoard implements Board {
 			// Move to new tile. Clear previous tile.
 			pieces[start.getX()][start.getY()][start.getZ()] = null;
 			pieces[end.getX()][end.getY()][end.getZ()] = piece;
-			if (level > 1) {
+			if (level > 1) { // Asking if third-dimensional
 				System.out.printf("Piece (%s) moved to [%d, %d, %d].\n", 
 					piece.getName().name(), end.getX(), end.getY(), end.getZ());
 			} else {
