@@ -7,22 +7,44 @@ import java.awt.Color;
  */
 public class TwoDBoard implements Board {
 	private final List<Position> board;
-	private final Piece[][] pieces;
+	private final Piece[][][] pieces;
 	private final int width = 8;
 	private final int height = 8;
+	private final int level;
 	
 	/**
 	 * Initializes a classic 8 x 8 chess board. 
 	 */
 	public TwoDBoard() {
 		// Standard 8 x 8 chess board
-		pieces = new Piece[height][width];
+		this.level = 1;
+		pieces = new Piece[height][width][level];
 		board = new ArrayList<Position>(height * width);
 		
 		// Set up board layout
 		for (int row = 0; row < height; row++) {
 			for (int col = 0; col < width; col++) {
 				board.add(new Position(row, col));
+			}
+		}
+	}
+	
+	/**
+	 * Overriden constructor. Allows variable number chess boards.
+	 * Initializes a 3D 8 x 8 x N chess board. N is levels.
+	 */
+	public TwoDBoard(int levels) {
+		// Standard 8 x 8 x N chess board
+		this.level = levels;
+		pieces = new Piece[height][width][level];
+		board = new ArrayList<Position>(height * width * level);
+		
+		// Set up board layout
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+				for (int lvl = 0; lvl < level; lvl++) {
+					board.add(new Position(row, col, lvl));
+				}
 			}
 		}
 	}
@@ -56,7 +78,7 @@ public class TwoDBoard implements Board {
 	 */
 	@Override
 	public int getSize() {
-		return width * height;
+		return (level > 1) ? width * height * level : width * height;
 	}
 	
 	/**
@@ -72,7 +94,7 @@ public class TwoDBoard implements Board {
 	 */
 	@Override
 	public Piece getPiece(Position pos) {
-		if (this.hasPiece(pos)) return pieces[pos.getX()][pos.getY()];
+		if (this.hasPiece(pos)) return pieces[pos.getX()][pos.getY()][pos.getZ()];
 		return null;
 	}
 	
@@ -81,23 +103,27 @@ public class TwoDBoard implements Board {
 	 */
 	@Override
 	public boolean hasPiece(Position pos) {
-		if (pieces[pos.getX()][pos.getY()] != null) return true;
+		if (pieces[pos.getX()][pos.getY()][pos.getZ()] != null) return true;
 		return false;
 	}
 	
 	/**
 	 * Checks if path is empty.
 	 */
+	@Override
 	public boolean checkPath(Position start, Position end) {
 		int dx = Integer.signum(end.getX() - start.getX());
 		int dy = Integer.signum(end.getY() - start.getY());
+		int dz = Integer.signum(end.getZ() - start.getZ());
 		int x = start.getX() + dx;
 		int y = start.getY() + dy;
+		int z = start.getZ() + dz;
 		
-		while (x != end.getX() || y != end.getY()) {
-			if (this.hasPiece(new Position(x, y))) return false;
+		while (x != end.getX() || y != end.getY() || z != end.getZ()) {
+			if (this.hasPiece(new Position(x, y, z))) return false;
 				x += dx;
 				y += dy;
+				z += dz;
 		}
 		return true;
 	}
@@ -121,9 +147,15 @@ public class TwoDBoard implements Board {
 					throw new Exception("Error: Cannot capture own piece.");
 			
 			// Move to new tile. Clear previous tile.
-			pieces[start.getX()][start.getY()] = null;
-			pieces[end.getX()][end.getY()] = piece;
-			System.out.printf("Piece (%s) moved to [%d, %d].\n", piece.getName().name(), end.getX(), end.getY());
+			pieces[start.getX()][start.getY()][start.getZ()] = null;
+			pieces[end.getX()][end.getY()][end.getZ()] = piece;
+			if (level > 1) {
+				System.out.printf("Piece (%s) moved to [%d, %d, %d].\n", 
+					piece.getName().name(), end.getX(), end.getY(), end.getZ());
+			} else {
+				System.out.printf("Piece (%s) moved to [%d, %d].\n", 
+					piece.getName().name(), end.getX(), end.getY());
+			}
 			
 			return true;
 		} catch (Exception e) {
@@ -139,34 +171,34 @@ public class TwoDBoard implements Board {
 	public void setup() {		
 		// Add pawns
 		for (int col = 0; col < width; col++) {
-			pieces[1][col] = new Pawn(Color.BLACK);
-			pieces[6][col] = new Pawn(Color.WHITE);
+			pieces[1][col][0] = new Pawn(Color.BLACK);
+			pieces[6][col][0] = new Pawn(Color.WHITE);
 		}
 		
 		// Add rooks
-		pieces[0][0] = new Rook(Color.BLACK);
-		pieces[0][7] = new Rook(Color.BLACK);
-		pieces[7][0] = new Rook(Color.WHITE);
-		pieces[7][7] = new Rook(Color.WHITE);
+		pieces[0][0][0] = new Rook(Color.BLACK);
+		pieces[0][7][0] = new Rook(Color.BLACK);
+		pieces[7][0][0] = new Rook(Color.WHITE);
+		pieces[7][7][0] = new Rook(Color.WHITE);
 		
 		// Add knights
-		pieces[0][1] = new Knight(Color.BLACK);
-		pieces[0][6] = new Knight(Color.BLACK);
-		pieces[7][1] = new Knight(Color.WHITE);
-		pieces[7][6] = new Knight(Color.WHITE);
+		pieces[0][1][0] = new Knight(Color.BLACK);
+		pieces[0][6][0] = new Knight(Color.BLACK);
+		pieces[7][1][0] = new Knight(Color.WHITE);
+		pieces[7][6][0] = new Knight(Color.WHITE);
 		
 		// Add bishops
-		pieces[0][2] = new Bishop(Color.BLACK);
-		pieces[0][5] = new Bishop(Color.BLACK);
-		pieces[7][2] = new Bishop(Color.WHITE);
-		pieces[7][5] = new Bishop(Color.WHITE);
+		pieces[0][2][0] = new Bishop(Color.BLACK);
+		pieces[0][5][0] = new Bishop(Color.BLACK);
+		pieces[7][2][0] = new Bishop(Color.WHITE);
+		pieces[7][5][0] = new Bishop(Color.WHITE);
 		
 		// Add Queen
-		pieces[0][3] = new Queen(Color.BLACK);
-		pieces[7][3] = new Queen(Color.WHITE);
+		pieces[0][3][0] = new Queen(Color.BLACK);
+		pieces[7][3][0] = new Queen(Color.WHITE);
 		
 		// Add King
-		pieces[0][4] = new King(Color.BLACK);
-		pieces[7][4] = new King(Color.WHITE);
+		pieces[0][4][0] = new King(Color.BLACK);
+		pieces[7][4][0] = new King(Color.WHITE);
 	}
 }

@@ -26,6 +26,9 @@ interface Board {
 	/** Abstract moves piece. */
 	boolean movePiece(Position start, Position end);
 	
+	/** Abstract checks path */
+	boolean checkPath(Position start, Position end);
+	
 	/** Abstract sets up board. */
 	void setup();
 }
