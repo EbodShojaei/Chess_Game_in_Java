@@ -21,9 +21,10 @@ public class Knight extends Piece {
 	public boolean checkMove(Position start, Position end) {
 		int rowDiff = Math.abs(end.getX() - start.getX());
 		int colDiff = Math.abs(end.getY() - start.getY());
+		int lvlDiff = Math.abs(end.getZ() - start.getZ());
 		
 		// Check for L-shaped move
-		return (rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2);
+		return (rowDiff == 2 && colDiff == 1 && lvlDiff <= 3) || (rowDiff == 1 && colDiff == 2 && lvlDiff <= 3);
 	}
 	
 	/** Gets the piece icon. 

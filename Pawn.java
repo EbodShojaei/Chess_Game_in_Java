@@ -22,6 +22,7 @@ public class Pawn extends Piece {
 	public boolean checkMove(Position start, Position end) {		
 		int rowDiff = end.getX() - start.getX();
 		int colDiff = end.getY() - start.getY();
+		int lvlDiff = end.getZ() - start.getZ();
 		
 		// Determine direction of movement
 		int direction = super.getColor() == Color.WHITE ? -1 : 1;
@@ -29,9 +30,11 @@ public class Pawn extends Piece {
 		// Check for normal forward movement
 		if (colDiff == 0) {
 			if (firstMove && rowDiff == 2 * direction) { // Two tiles first move
+				if (lvlDiff > 2 || lvlDiff < -2) return false;
 				firstMove = false; // First move false;
 				return true;
 			} else if (rowDiff == direction) { // One tile forward
+				if (lvlDiff > 1 || lvlDiff < -1) return false;
 				if (firstMove) firstMove = false;
 				return true;
 			}

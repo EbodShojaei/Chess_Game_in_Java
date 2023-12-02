@@ -21,12 +21,14 @@ public class Queen extends Piece {
 	public boolean checkMove(Position start, Position end) {
 		int rowDiff = Math.abs(end.getX() - start.getX());
 		int colDiff = Math.abs(end.getY() - start.getY());
+		int lvlDiff = Math.abs(end.getZ() - start.getZ());
+		int maxDiff = Math.max(rowDiff, colDiff);
 		
 		// Check for horizontal or vertical move
-		boolean rowOrCol = rowDiff == 0 || colDiff == 0;
+		boolean rowOrCol = (rowDiff == 0 || colDiff == 0) && lvlDiff <= maxDiff;
 		
 		// Check for diagonal move
-		boolean isDiag = rowDiff == colDiff;
+		boolean isDiag = (rowDiff == colDiff) && lvlDiff <= maxDiff;
 		
 		return rowOrCol || isDiag;
 	}

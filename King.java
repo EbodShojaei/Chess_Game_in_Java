@@ -21,9 +21,10 @@ public class King extends Piece {
 	public boolean checkMove(Position start, Position end) {
 		int rowDiff = Math.abs(end.getX() - start.getX());
 		int colDiff = Math.abs(end.getY() - start.getY());
+		int lvlDiff = Math.abs(end.getZ() - start.getZ());
 		
 		// Check that both X and Y moves 1 tile
-		return rowDiff <= 1 && colDiff <= 1;
+		return rowDiff <= 1 && colDiff <= 1 && lvlDiff <= 1;
 	}
 	
 	/** Gets the piece icon. 

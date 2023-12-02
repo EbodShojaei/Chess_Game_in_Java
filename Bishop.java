@@ -21,9 +21,11 @@ public class Bishop extends Piece {
 	public boolean checkMove(Position start, Position end) {
 		int rowDiff = Math.abs(end.getX() - start.getX());
 		int colDiff = Math.abs(end.getY() - start.getY());
+		int lvlDiff = Math.abs(end.getZ() - start.getZ());
+		int maxTravel = Math.max(rowDiff, colDiff);
 		
 		// Check for diagonal move > 0
-		return rowDiff == colDiff && rowDiff != 0;
+		return rowDiff == colDiff && rowDiff != 0 && lvlDiff <= maxTravel;
 	}
 	
 	/** Gets the piece icon. 

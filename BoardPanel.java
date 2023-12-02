@@ -124,13 +124,8 @@ public class BoardPanel extends JPanel implements Observer {
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					if (board.hasPiece(position)) {
-						System.out.println("Piece selected.");
-						// setBackground(Color.YELLOW);
-					}
-					else {
-						System.out.println("Tile selected.");
-					}
+					if (board.hasPiece(position)) System.out.println("Piece selected.");
+					else System.out.println("Tile selected.");
 		
 					controller.selectTile(position); // Update the controller
 				}
