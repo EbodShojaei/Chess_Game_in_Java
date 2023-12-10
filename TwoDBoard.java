@@ -118,6 +118,19 @@ public class TwoDBoard implements Board {
 		int x = start.getX() + dx;
 		int y = start.getY() + dy;
 		int z = start.getZ() + dz; // This method finally came in handy.
+		try {
+			if (Math.abs(start.getZ() - end.getZ()) > 1) {
+				if (Math.abs(start.getX() - end.getX()) > 2) throw new Exception("Error: Invalid move.");
+				if (Math.abs(start.getY() - end.getY()) > 2) throw new Exception("Error: Invalid move.");
+			} else {
+				if (Math.abs(start.getX() - end.getX()) > 1) throw new Exception("Error: Invalid move.");
+				if (Math.abs(start.getY() - end.getY()) > 1) throw new Exception("Error: Invalid move.");
+			}
+		} catch (Exception e) {
+			System.out.printf("%s\n", e.getMessage());
+			return false;
+		}
+
 		while (x != end.getX() || y != end.getY() || z != end.getZ()) { 
 			if (this.hasPiece(new Position(x, y, z))) return false;
 			if (x != end.getX()) x += dx;
